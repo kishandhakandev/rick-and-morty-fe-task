@@ -8,6 +8,7 @@ import ErrorState from '../components/ErrorState';
 import { fetchCharacters } from '../api/rickAndMorty';
 import CharacterDetail from '../components/CharacterDetail';
 import Pagination from '../components/Pagination';
+import { CharacterCardSkeleton } from '../components/Skeleton';
 
 export default function CharactersPage() {
   const [name, setName] = useState('');
@@ -52,7 +53,11 @@ export default function CharactersPage() {
       <section>
         {header}
         {isLoading ? (
-          <Loader />
+          <div className="flex flex-col gap-3">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <CharacterCardSkeleton key={i} />
+            ))}
+          </div>
         ) : isError ? (
           <ErrorState message={(error as Error)?.message} />
         ) : characters.length === 0 ? (

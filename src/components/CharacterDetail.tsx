@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import Loader from './Loader';
 import ErrorState from './ErrorState';
+import { CharacterDetailSkeleton } from './Skeleton';
 import {
   extractEpisodeIds,
   fetchCharacter,
@@ -22,11 +23,12 @@ export default function CharacterDetail({ id }: { id: number }) {
     enabled: episodeIds.length > 0,
   });
 
-  if (characterQuery.isLoading) return <Loader />;
+  if (characterQuery.isLoading) return <CharacterDetailSkeleton />;
   if (characterQuery.isError)
     return <ErrorState message={(characterQuery.error as Error)?.message} />;
 
-  const c = characterQuery.data!;
+  const c = characterQuery.data;
+  if (!c) return null;
 
   return (
     <div className="flex flex-col gap-6">

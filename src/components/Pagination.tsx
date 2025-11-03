@@ -57,11 +57,16 @@ function Pagination({ current, total, onChange }: Props) {
   const onPageClick = useCallback((p: number) => () => onChange(p), [onChange]);
 
   return (
-    <nav className="flex items-center gap-2" aria-label="Pagination">
+    <nav
+      className="flex items-center gap-2"
+      role="navigation"
+      aria-label="Pagination"
+    >
       <button
         onClick={goPrev}
         disabled={!canPrev}
         className="rounded-md border px-3 py-2 text-sm hover:bg-neutral-50 disabled:opacity-40 disabled:hover:bg-transparent"
+        aria-label="Previous page"
       >
         Previous
       </button>
@@ -75,6 +80,7 @@ function Pagination({ current, total, onChange }: Props) {
             <li key={it as number}>
               <button
                 onClick={onPageClick(it as number)}
+                aria-current={it === current ? 'page' : undefined}
                 className={`min-w-[2.25rem] rounded-md border px-3 py-2 text-sm ${
                   it === current
                     ? 'border-indigo-500 bg-indigo-50 font-medium text-indigo-700'
@@ -91,6 +97,7 @@ function Pagination({ current, total, onChange }: Props) {
         onClick={goNext}
         disabled={!canNext}
         className="rounded-md border px-3 py-2 text-sm hover:bg-neutral-50 disabled:opacity-40 disabled:hover:bg-transparent"
+        aria-label="Next page"
       >
         Next
       </button>

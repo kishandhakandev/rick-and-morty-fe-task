@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
+import { memo } from 'react';
 import type { Character } from '../api/rickAndMorty';
 
 type Props = { character: Character };
 
-export default function CharacterCard({ character }: Props) {
+function CharacterCard({ character }: Props) {
   return (
     <Link
       to={`/character/${character.id}`}
@@ -23,3 +24,5 @@ export default function CharacterCard({ character }: Props) {
     </Link>
   );
 }
+
+export default memo(CharacterCard);

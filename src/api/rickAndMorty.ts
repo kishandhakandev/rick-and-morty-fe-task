@@ -1,8 +1,9 @@
 import type { RMCharacter, RMCharactersResponse, RMEpisode } from '../types/rm';
+import { API_BASE } from './config';
 export type Character = RMCharacter;
 export type Episode = RMEpisode;
 
-const BASE = 'https://rickandmortyapi.com/api';
+const BASE = API_BASE;
 
 export type CharactersResponse = RMCharactersResponse;
 
