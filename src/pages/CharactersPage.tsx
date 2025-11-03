@@ -1,9 +1,8 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import SearchBar from '../components/SearchBar';
 import CharacterCard from '../components/CharacterCard';
-import Loader from '../components/Loader';
 import ErrorState from '../components/ErrorState';
 import { fetchCharacters } from '../api/rickAndMorty';
 import CharacterDetail from '../components/CharacterDetail';
@@ -22,6 +21,13 @@ export default function CharactersPage() {
 
   const params = useParams();
   const selectedId = params.id ? Number(params.id) : undefined;
+
+  // Scroll to top when a character is selected to ensure details are visible
+  useEffect(() => {
+    if (selectedId) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [selectedId]);
 
   const characters = data?.results ?? [];
   const totalPages = data?.info.pages ?? 0;
