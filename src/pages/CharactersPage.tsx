@@ -22,7 +22,6 @@ export default function CharactersPage() {
   const params = useParams();
   const selectedId = params.id ? Number(params.id) : undefined;
 
-  // Scroll to top when a character is selected to ensure details are visible
   useEffect(() => {
     if (selectedId) {
       window.scrollTo({ top: 0, behavior: 'smooth' });

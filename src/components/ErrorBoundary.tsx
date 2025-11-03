@@ -11,7 +11,6 @@ export default class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, info: unknown) {
-    // In a real app, send this to monitoring service
     console.error('ErrorBoundary caught an error', error, info);
   }
 
