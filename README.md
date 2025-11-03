@@ -1,38 +1,59 @@
 # Rick & Morty Explorer (FE Task)
 
-A simple SPA built with React + TypeScript. It searches characters from the Rick & Morty API and shows a detail view with the list of episodes.
+Simple SPA in React + TypeScript. Browse characters, view details and episodes, and open an episode detail page. Built for desktop layout.
 
 ## Tech
 
 - React + TypeScript (Vite)
 - React Router
-- React Query (data fetching & caching)
+- TanStack Query (React Query)
 - Tailwind CSS
 
 ## Getting started
+
+1. Install and run
 
 ```bash
 npm install
 npm run dev
 ```
 
-Then open the printed local URL.
+2. Optional: configure env (defaults are fine)
+
+Create `.env.local` if you need overrides:
+
+```
+# Overrides API base if needed
+VITE_API_BASE=https://rickandmortyapi.com/api
+```
 
 ## Features
 
-- Characters list with search and pagination
-- Character detail view with image, basic info, and episodes list
-- Loading and error states for all requests
-- Desktop-focused layout
+- Characters list with search (debounced) and robust pagination
+  - Pagination shows First/Prev/neighbor pages/Next/Last with ellipses
+  - Prev disabled on first page; Next disabled on last page
+- SPA detail panel
+  - Clicking a character shows details in the right pane; page auto-scrolls to top
+  - Episodes are fetched in a single batched request
+- Episode Detail page (`/episode/:id`) with back button
+- Loading UX
+  - Skeletons for list and detail; global Error Boundary for uncaught errors
+- Performance & DX
+  - Code-splitting for routes, memoized components/handlers, React Query caching
+- Accessibility
+  - Proper ARIA for pagination and search
 
-## Assumptions
+## Project structure
 
-- API rate limits are acceptable for client usage
-- Episodes are fetched in a single batched request using episode IDs from the character payload
+- `src/api/` REST helpers and config (`API_BASE`)
+- `src/components/` UI pieces (cards, detail, pagination, skeletons, error boundary)
+- `src/pages/` route screens
+- `src/types/` API response types
 
-## Improvements (if more time)
+## Scripts
 
-- Episode detail route and deep linking
-- Infinite scrolling for the list
-- Better empty-state illustrations and toasts
-- Add unit tests for API helpers and components
+```bash
+npm run dev      # start dev server
+npm run build    # type-check + production build
+npm run preview  # preview built app
+```
