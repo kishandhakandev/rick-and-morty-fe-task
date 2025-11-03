@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import './index.css';
 import CharactersPage from './pages/CharactersPage';
 import EpisodeDetailPage from './pages/EpisodeDetailPage';
+import ErrorBoundary from './components/ErrorBoundary';
 import App from './App';
 
 const router = createBrowserRouter([
@@ -23,8 +24,10 @@ const queryClient = new QueryClient();
 
 createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </ErrorBoundary>
   </React.StrictMode>
 );
