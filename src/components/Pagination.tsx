@@ -1,3 +1,5 @@
+import { memo, useCallback, useMemo } from 'react';
+
 type Props = {
   current: number;
   total: number;
@@ -34,21 +36,25 @@ function getPageItems(current: number, total: number): (number | string)[] {
   });
 }
 
-export default function Pagination({ current, total, onChange }: Props) {
+function Pagination({ current, total, onChange }: Props) {
   if (!total || total < 1) return null;
 
-  const items = getPageItems(current, total);
+  const items = useMemo(() => getPageItems(current, total), [current, total]);
 
-  const canPrev = current > 1;
-  const canNext = current < total;
-  const goPrev = () => {
+  const canPrev = useMemo(() => current > 1, [current]);
+  const canNext = useMemo(() => current < total, [current, total]);
+
+  const goPrev = useCallback(() => {
     if (!canPrev) return;
     onChange(current - 1);
-  };
-  const goNext = () => {
+  }, [canPrev, current, onChange]);
+
+  const goNext = useCallback(() => {
     if (!canNext) return;
     onChange(current + 1);
-  };
+  }, [canNext, current, onChange]);
+
+  const onPageClick = useCallback((p: number) => () => onChange(p), [onChange]);
 
   return (
     <nav className="flex items-center gap-2" aria-label="Pagination">
@@ -68,7 +74,7 @@ export default function Pagination({ current, total, onChange }: Props) {
           ) : (
             <li key={it as number}>
               <button
-                onClick={() => onChange(it as number)}
+                onClick={onPageClick(it as number)}
                 className={`min-w-[2.25rem] rounded-md border px-3 py-2 text-sm ${
                   it === current
                     ? 'border-indigo-500 bg-indigo-50 font-medium text-indigo-700'
@@ -91,3 +97,5 @@ export default function Pagination({ current, total, onChange }: Props) {
     </nav>
   );
 }
+
+export default memo(Pagination);
